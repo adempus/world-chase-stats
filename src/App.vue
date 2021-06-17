@@ -3,6 +3,8 @@
     <router-link to="/teams">Teams</router-link> |
     <router-link to="/athletes">Athletes</router-link> |
     <router-link to="/matches">Matches</router-link>
+
+    
   </div>
   <router-view />
 </template>
@@ -28,4 +30,11 @@
 #nav a.router-link-exact-active {
   color: #42b983;
 }
+.alet{
+  display: flex;
+  max-width:1280px;
+  padding:25px;
+  margin:0 auto;
+}
 </style>
+
