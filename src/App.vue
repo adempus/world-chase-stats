@@ -1,6 +1,6 @@
 <template>
-  <div id="nav">
-    <router-link to="/teams">Teams</router-link> |
+  <div id="nav" :style="{ backgroundImage: 'url(' + require('@/assets/nav.png') + ')' }">
+    <router-link to="/teams" >Teams</router-link> |
     <router-link to="/athletes">Athletes</router-link> |
     <router-link to="/matches">Matches</router-link>
 
@@ -8,6 +8,8 @@
   </div>
   <router-view />
 </template>
+
+
 
 <style>
 #app {
@@ -20,15 +22,20 @@
 
 #nav {
   padding: 30px;
+ 
+ background-repeat: no-repeat; 
+ max-width:1000px;
 }
 
 #nav a {
   font-weight: bold;
-  color: #2c3e50;
+  color: #fdfdfd;
+  
+  padding-right: 15px;
 }
 
 #nav a.router-link-exact-active {
-  color: #42b983;
+  color: #dd2626;
 }
 .alet{
   display: flex;
@@ -37,4 +44,3 @@
   margin:0 auto;
 }
 </style>
-
