@@ -1,14 +1,14 @@
 <template>
 
 
-<h3>Athletes</h3>
+<h3>ATHLETES</h3>
         <div class="p-grid p-ai-center vertical-container">
         
 
             <Card v-for="team_athlete in team_athletes" :key="team_athlete.id" :team_athlete="team_athlete">
                 
-                <template #header >
-                  <div class="p-col">
+                <template #header  style=" border-color: black;">
+                  <div class="p-col" style=" border-color: black;">
                     <div class="box">
                       <div class="athletes-title-wrap" >
                           <h4 class="font-text">{{"\xa0\xa0"+team_athlete.name}}</h4>
@@ -18,11 +18,14 @@
                       </div>
                       <div class="athletes-image-wrap" >
                         <router-link :to='getProfileUrl(team_athlete.id)'>
-                        <img :src=team_athlete.image>
+                         <img :src = "team_athlete.image" alt="No image">
+
                        </router-link>
                       </div>
-                      <hr style="width:98%;text-align:center;margin-left:3">
-                      <div class="athletes-detail">T {{team_athlete.tags}} | {{team_athlete.evasions}} E </div>
+                      
+                      <div class="athletes-detail">
+                          <hr style="width:98%;text-align:center;margin-left:3;">
+                          T {{team_athlete.tags}} | {{team_athlete.evasions}} E </div>
                     </div>
                  </div>
                   </template>   
@@ -39,11 +42,20 @@ export default {
     getProfileUrl(id){
       return "/athletes/" + id + "/profile";
 
-    }
+    },
+    
   },
+
 data(){
   return {
+      
+    
+      
+
+    
+
   "team_athletes": [
+      
     {
         "id": 28,
         "name": "D'Ondrai Jones",
@@ -214,6 +226,7 @@ data(){
         "image": null,
         "tags": "0/0",
         "evasions": "0/0"
+        
     },
     {
         "id": 86,
@@ -912,6 +925,7 @@ data(){
   }
 }
 }
+
 </script>
    
 
@@ -927,31 +941,46 @@ h3{
   text-decoration-color: red;
  
 }
+.p-col{
+
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+ 
+  
+}
 .team{
+   
   text-align: right; 
   padding-right: 15px;
+ 
 }
 
 .sm_handle {
   text-align: left;
   padding-bottom: 15px;
  font-size: 0.8em;
+
+
   
 }
 
 .athletes-detail{
-  padding: 20px;
+  padding: 15px;
   text-align: center;
+ 
+ background-color: white;
 }
 
 .athletes-title-wrap{
- 
+  
   height: 70%;
   width:100%;
-  background-color:rgb(236, 236, 236);
+  background-color:rgb(240, 239, 239);
 
 }
 h4{
+   
   padding-top: 13px;
   font-family: Arial, Helvetica, sans-serif;
   text-align: left;
@@ -960,30 +989,32 @@ h4{
 
 .athletes-image-wrap{
   width:180px;
-  
+  background-color: white;
   padding: 13px;
-  
+ 
 }
 
 
 .box { 
- 
+
         text-align: center;
         border-radius: 4px;
+       
         box-shadow: 0 3px 3px 2px rgba(0,0,0,.2), 0 1px 1px 0 rgba(0,0,0,.14), 0 1px 3px 0 rgba(0,0,0,.12);
+        
      }
 
+
 .vertical-container {
-        
+    
         padding:15px;
         margin: 5px;
         width:1000px;
         height: 80px;
-       
+   
         justify-content:  space-evenly;
        
     }
-
 
 </style>
 
