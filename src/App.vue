@@ -4,7 +4,7 @@
     <router-link to="/athletes">Athletes</router-link> |
     <router-link to="/matches">Matches</router-link>
 
-    
+
   </div>
   <router-view />
 </template>
@@ -12,6 +12,11 @@
 
 
 <style>
+* {
+  margin: 0;
+  padding: 0;
+}
+
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -22,15 +27,15 @@
 
 #nav {
   padding: 30px;
- 
- background-repeat: no-repeat; 
+
+ background-repeat: no-repeat;
  max-width:1000px;
 }
 
 #nav a {
   font-weight: bold;
   color: #fdfdfd;
-  
+
   padding-right: 15px;
 }
 
