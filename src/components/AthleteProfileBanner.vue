@@ -6,8 +6,7 @@
         class="athlete_sm_handle"
         href="https://www.instagram.com/minnesoderman/"
         target="_blank"
-      >@minnesoderman</a
-      >
+      >@minnesoderman</a>
       <div class="team_info">
         <h2>Team</h2>
         <p>Hollywood Freerunners</p>

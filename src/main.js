@@ -9,19 +9,19 @@ import "primeicons/primeicons.css";
 import PrimeVue from "primevue/config";
 // component imports
 import Button from "primevue/button";
-
 import Card from "primevue/card";
-
+import Divider from "primevue/divider";
+import Knob from "primevue/knob";
 
 const app = createApp(App);
 app.use(PrimeVue, { ripple: true });
-
-
 
 app.use(router);
 
 // component injections
 app.component("Button", Button);
 app.component("Card", Card);
+app.component("Divider", Divider);
+app.component("Knob", Knob);
 
 app.mount("#app");
