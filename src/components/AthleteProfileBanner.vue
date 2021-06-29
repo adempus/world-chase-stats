@@ -21,12 +21,15 @@
           <h2>Evasions</h2>
           <p>17/27</p>
         </div>
+        
       </div>
-    </div>
-    <img
+      
+      <img
       class="image_container"
       src="https://wct-athlete-images.s3.us-east-2.amazonaws.com/hollywood_freeruners/kyle_soderman.png"
     />
+    </div>
+    
   </div>
 </template>
 
@@ -59,6 +62,7 @@ export default {
 }
 
 .banner_info {
+  
   margin-top: 35px;
   position: relative;
   display: block;
@@ -113,12 +117,13 @@ export default {
   transform: skew(-20deg, 0deg);
 }
 .image_container {
-  position: relative;
-  float: right;
-  top: 5%;
-  right: -265px;
-  height: 325px;
-  width: 325px;
+
+ 
+  right: 0;
+  top: 165px;
+  width: 320px;
+  height: 320px;
+  position: fixed;
   border: 7px solid #ffffff;
   border-radius: 100%;
   display: inline-block;
