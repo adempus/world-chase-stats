@@ -1,7 +1,7 @@
 <template>
-  <Card style="padding: 10px 100px; margin: 0 50px;">
+  <Card style="padding: 10px 100px">
     <template #header>
-      <h1 class="stat_details">{{ headers.subject }}</h1>
+      <h1 class="stat_details_subject_header">{{ headers.subject }}</h1>
     </template>
     <template #title>
       <Knob
@@ -12,21 +12,24 @@
         :max="100"
         readonly="true"
         size="225"
-        strokeWidth="9"
+        strokeWidth="7"
         valueColor="#dd2626"
         rangeColor="#f3f3f3"
         textColor="#111111"
       />
     </template>
     <template #content>
-      <!-- TODO -->
-<!--      <h3 class="stat_details_subheader">{{ headers.title }}</h3>-->
-<!--      <div class="stats">-->
-<!--        <h4 style="padding: 0 10px 0 10px">Avg. Time:</h4> <p>10.2</p>-->
-<!--      </div>-->
-<!--      <div class="stats">-->
-<!--        <h4 style="padding: 0 10px 0 10px">Z-Score:</h4> <p>+23%</p>-->
-<!--      </div>-->
+      <h3 class="stat_details_subheader">{{ headers.title }}</h3>
+      <div class="p-grid p-jc-start p-pt-2">
+        <div class="p-row-6 p-p-4">
+          <p class="p-pb-2">Avg Time</p>
+          <p class="stat_details">{{ athleteStats.avgTime }} sec.</p>
+        </div>
+        <div class="p-row-6 p-p-4">
+          <p class="p-pb-2">Z-Score</p>
+          <p class="stat_details">{{ getZScore }}%</p>
+        </div>
+      </div>
     </template>
   </Card>
 </template>
@@ -35,13 +38,19 @@
 export default {
   name: "AthleteStatCard",
   props: {
-    knobValue: String,
     headers: Object,
+    athleteStats: Object,
   },
   data() {
     return {
-      knob_val: this.knobValue,
+      knob_val: this.athleteStats.percentage,
     };
+  },
+  computed: {
+    getZScore() {
+      const zScore = this.athleteStats.zScore;
+      return zScore > 0 ? `+${zScore}` : zScore;
+    },
   },
 };
 </script>
@@ -55,13 +64,15 @@ export default {
   font-weight: 600;
 }
 
-.stat_details {
+.stat_details_subject_header {
   font-family: "Bai Jamjuree", sans-serif;
   font-weight: 600;
 }
 
-.stats {
-  display: flex;
+.stat_details {
+  font-family: "Bai Jamjuree", sans-serif;
+  font-weight: 600;
+  font-size: 24px;
 }
 
 .stat_details_subheader {

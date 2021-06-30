@@ -1,30 +1,31 @@
 <template>
   <div class="profile_banner p-shadow-4">
     <div class="banner_info">
-      <p class="athlete_name">KYLE SODERMAN</p>
+      <p class="athlete_name p-text-uppercase">{{ bannerData.athleteName }}</p>
       <a
         class="athlete_sm_handle"
-        href="https://www.instagram.com/minnesoderman/"
+        :href="`https://www.instagram.com/${bannerData.smHandle.substring(1)}`"
         target="_blank"
-      >@minnesoderman</a>
+        >{{ bannerData.smHandle }}</a
+      >
       <div class="team_info">
         <h2>Team</h2>
-        <p>Hollywood Freerunners</p>
+        <p>{{ bannerData.team }}</p>
       </div>
       <div class="banner_stats">
         <div>
           <h2>Tags</h2>
-          <p>9/10</p>
+          <p>{{ bannerData.tags }}</p>
         </div>
         <div style="margin-left: 20px">
           <h2>Evasions</h2>
-          <p>17/27</p>
+          <p>{{ bannerData.evasions }}</p>
         </div>
       </div>
     </div>
     <img
       class="image_container"
-      src="https://wct-athlete-images.s3.us-east-2.amazonaws.com/hollywood_freeruners/kyle_soderman.png"
+      :src="`${ bannerData.athleteImage }`"
     />
   </div>
 </template>
@@ -32,6 +33,9 @@
 <script>
 export default {
   name: "AthleteProfileBanner",
+  props: {
+    bannerData: Object,
+  },
 };
 </script>
 
