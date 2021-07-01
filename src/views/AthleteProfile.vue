@@ -1,7 +1,7 @@
 <template>
   <div>
     <h1>Athlete's Profile</h1>
-    <p>Athlete ID: {{ $route.params.id }}</p>
+    <p>Athlete ID: {{ athleteId }}</p>
   </div>
   <AthleteProfileBanner
     :banner-data="{
@@ -14,9 +14,7 @@
         'https://wct-athlete-images.s3.us-east-2.amazonaws.com/hollywood_freeruners/kyle_soderman.png',
     }"
   />
-  <!--  <div>-->
   <h2 class="p-d-block p-mx-auto p-mt-6 p-mb-6 stats_subheader">STATS</h2>
-  <!--  </div>-->
   <div class="p-d-flex p-jc-center p-mb-6">
     <div>
       <AthleteStatCard
@@ -37,12 +35,48 @@
 <script>
 import AthleteProfileBanner from "@/components/AthleteProfileBanner";
 import AthleteStatCard from "@/components/AthleteStatCard";
+import axios from "axios";
+
 
 export default {
+  mounted() {
+    this.$nextTick(function () {
+      // console.log(`athlete id: ${ this.athleteId }`);
+      this.queryAthlete();
+    });
+  },
   name: "AthleteProfile",
   components: {
     AthleteProfileBanner,
     AthleteStatCard,
+  },
+  data() {
+    return {
+      athleteQueryResponse: null,
+    };
+  },
+  methods: {
+    queryAthlete() {
+      const athleteUrl = `http://127.0.0.1:8000/athlete/${this.athleteId}`;
+      axios.get(athleteUrl).then((res) => {
+        if (res.data["athlete"].length > 0) {
+          this.athleteQueryResponse = res.data["athlete"][0];
+        }
+        console.log(this.athleteQueryResponse);
+      });
+    },
+  },
+  computed: {
+    athleteId() {
+      return this.$route.params.id;
+    },
+    athleteBannerData() {
+      return {
+        athleteName: `${this.athleteQueryResponse["first_name"]} ${this.athleteQueryResponse["last_name"]}`,
+        smHandle: `${this.athleteQueryResponse["sm_handle"]}`,
+        team: `${this.athleteQueryResponse["team"]["name"]}`,
+      };
+    },
   },
 };
 </script>
