@@ -3,17 +3,21 @@
     <h1>Athlete's Profile</h1>
     <p>Athlete ID: {{ athleteId }}</p>
   </div>
-  <AthleteProfileBanner
-    :banner-data="{
-      athleteName: 'Kyle Soderman',
-      smHandle: '@minnesoderman',
-      team: 'Hollywood Freerunners',
-      tags: '9/10',
-      evasions: '17/27',
-      athleteImage:
-        'https://wct-athlete-images.s3.us-east-2.amazonaws.com/hollywood_freeruners/kyle_soderman.png',
-    }"
-  />
+  <!--  <AthleteProfileBanner-->
+  <!--    :banner-data="{-->
+  <!--      athleteName: 'Kyle Soderman',-->
+  <!--      smHandle: '@minnesoderman',-->
+  <!--      team: 'Hollywood Freerunners',-->
+  <!--      tags: '9/10',-->
+  <!--      evasions: '17/27',-->
+  <!--      athleteImage:-->
+  <!--        'https://wct-athlete-images.s3.us-east-2.amazonaws.com/hollywood_freeruners/kyle_soderman.png',-->
+  <!--    }"-->
+  <!--  />-->
+
+  <div v-if="athleteBannerData === null">Loading ...</div>
+  <AthleteProfileBanner v-else :banner-data="athleteBannerData" />
+
   <h2 class="p-d-block p-mx-auto p-mt-6 p-mb-6 stats_subheader">STATS</h2>
   <div class="p-d-flex p-jc-center p-mb-6">
     <div>
@@ -37,13 +41,17 @@ import AthleteProfileBanner from "@/components/AthleteProfileBanner";
 import AthleteStatCard from "@/components/AthleteStatCard";
 import axios from "axios";
 
-
 export default {
-  mounted() {
-    this.$nextTick(function () {
-      // console.log(`athlete id: ${ this.athleteId }`);
-      this.queryAthlete();
+  beforeRouteEnter(to, from, next) {
+    console.log("Route has entered.");
+    next((vm) => {
+      vm.queryAthleteData();
+    }).then((vm) => {
+      console.log(vm.athleteQueryResponse);
     });
+  },
+  beforeRouteUpdate() {
+    console.log("Route has updated (before).");
   },
   name: "AthleteProfile",
   components: {
@@ -52,30 +60,46 @@ export default {
   },
   data() {
     return {
-      athleteQueryResponse: null,
+      athleteBannerData: null,
     };
   },
   methods: {
-    queryAthlete() {
-      const athleteUrl = `http://127.0.0.1:8000/athlete/${this.athleteId}`;
-      axios.get(athleteUrl).then((res) => {
-        if (res.data["athlete"].length > 0) {
-          this.athleteQueryResponse = res.data["athlete"][0];
-        }
-        console.log(this.athleteQueryResponse);
-      });
+    queryAthleteData() {
+      const bannerInfoRequest = axios.get(
+        `http://127.0.0.1:8000/athlete/${this.athleteId}`
+      );
+      const statsInfoRequest = axios.get(
+        `http://127.0.0.1:8000/athlete/${this.athleteId}/stats`
+      );
+
+      axios
+        .all([bannerInfoRequest, statsInfoRequest])
+        .then(
+          axios.spread((...responses) => {
+            const bannerResponse = responses[0].data.athlete[0];
+            const statsResponse = responses[1].data;
+            this.parseAthleteBannerData(bannerResponse, statsResponse);
+            console.log(statsResponse);
+          })
+        )
+        .catch((errors) => {
+          console.log(errors);
+        });
+    },
+    parseAthleteBannerData(bannerResponse, statsResponse) {
+      this.athleteBannerData = {
+        athleteName: `${statsResponse.name}`,
+        smHandle: `${bannerResponse.sm_handle}`,
+        athleteImage: `${bannerResponse.image_url}`,
+        team: `${bannerResponse.team.name}`,
+        tags: `${statsResponse.chaser.tags_made}/${statsResponse.chaser.tag_attempts}`,
+        evasions: `${statsResponse.evader.evasions_made}/${statsResponse.evader.evasion_attempts}`,
+      };
     },
   },
   computed: {
     athleteId() {
       return this.$route.params.id;
-    },
-    athleteBannerData() {
-      return {
-        athleteName: `${this.athleteQueryResponse["first_name"]} ${this.athleteQueryResponse["last_name"]}`,
-        smHandle: `${this.athleteQueryResponse["sm_handle"]}`,
-        team: `${this.athleteQueryResponse["team"]["name"]}`,
-      };
     },
   },
 };
