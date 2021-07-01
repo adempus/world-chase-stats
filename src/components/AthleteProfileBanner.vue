@@ -121,8 +121,8 @@ export default {
  
   right: 0;
   top: 165px;
-  width: 320px;
-  height: 320px;
+  width: 33%;
+  height: 50%;
   position: fixed;
   border: 7px solid #ffffff;
   border-radius: 100%;
