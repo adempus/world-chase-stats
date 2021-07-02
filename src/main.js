@@ -12,6 +12,7 @@ import Button from "primevue/button";
 import Card from "primevue/card";
 import Divider from "primevue/divider";
 import Knob from "primevue/knob";
+import Skeleton from "primevue/skeleton";
 
 const app = createApp(App);
 app.use(PrimeVue, { ripple: true });
@@ -23,5 +24,6 @@ app.component("Button", Button);
 app.component("Card", Card);
 app.component("Divider", Divider);
 app.component("Knob", Knob);
+app.component("Skeleton", Skeleton);
 
 app.mount("#app");

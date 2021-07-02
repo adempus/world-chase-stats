@@ -3,34 +3,28 @@
     <h1>Athlete's Profile</h1>
     <p>Athlete ID: {{ athleteId }}</p>
   </div>
-  <!--  <AthleteProfileBanner-->
-  <!--    :banner-data="{-->
-  <!--      athleteName: 'Kyle Soderman',-->
-  <!--      smHandle: '@minnesoderman',-->
-  <!--      team: 'Hollywood Freerunners',-->
-  <!--      tags: '9/10',-->
-  <!--      evasions: '17/27',-->
-  <!--      athleteImage:-->
-  <!--        'https://wct-athlete-images.s3.us-east-2.amazonaws.com/hollywood_freeruners/kyle_soderman.png',-->
-  <!--    }"-->
-  <!--  />-->
-
-  <div v-if="athleteBannerData === null">Loading ...</div>
+  <div v-if="athleteBannerData === null" class="p-d-flex">
+    <Skeleton width="80rem" height="20rem" class="p-ml-6 p-mt-3" />
+    <Skeleton shape="circle" size="22rem" class="p-ml-3 p-mt-3" />
+  </div>
   <AthleteProfileBanner v-else :banner-data="athleteBannerData" />
 
   <h2 class="p-d-block p-mx-auto p-mt-6 p-mb-6 stats_subheader">STATS</h2>
+
   <div class="p-d-flex p-jc-center p-mb-6">
-    <div>
+    <div v-if="athleteStatsData.chaser === null">Loading...</div>
+    <div v-else>
       <AthleteStatCard
         :headers="{ title: 'Chaser', subject: 'Tags' }"
-        :athlete-stats="{ percentage: 90, avgTime: 10.2, zScore: 23 }"
+        :athlete-stats="athleteStatsData.chaser"
       />
     </div>
     <Divider layout="vertical" class="p-pr-5 p-pl-5" />
-    <div>
+    <div v-if="athleteStatsData.evader === null">Loading...</div>
+    <div v-else>
       <AthleteStatCard
         :headers="{ title: 'Evader', subject: 'Evasions' }"
-        :athlete-stats="{ percentage: 63, avgTime: 16.4, zScore: 24 }"
+        :athlete-stats="athleteStatsData.evader"
       />
     </div>
   </div>
@@ -61,6 +55,10 @@ export default {
   data() {
     return {
       athleteBannerData: null,
+      athleteStatsData: {
+        chaser: null,
+        evader: null,
+      },
     };
   },
   methods: {
@@ -79,7 +77,7 @@ export default {
             const bannerResponse = responses[0].data.athlete[0];
             const statsResponse = responses[1].data;
             this.parseAthleteBannerData(bannerResponse, statsResponse);
-            console.log(statsResponse);
+            this.parseAthleteStatsData(statsResponse);
           })
         )
         .catch((errors) => {
@@ -95,6 +93,19 @@ export default {
         tags: `${statsResponse.chaser.tags_made}/${statsResponse.chaser.tag_attempts}`,
         evasions: `${statsResponse.evader.evasions_made}/${statsResponse.evader.evasion_attempts}`,
       };
+    },
+    parseAthleteStatsData(statsResponse) {
+      this.athleteStatsData.chaser = {
+        percentage: statsResponse.chaser.tag_percentage,
+        avgTime: statsResponse.chaser.average_time,
+        zScore: statsResponse.chaser.z_score,
+      };
+      this.athleteStatsData.evader = {
+        percentage: statsResponse.evader.evade_percentage,
+        avgTime: statsResponse.evader.average_time,
+        zScore: statsResponse.evader.z_score,
+      };
+      console.log(statsResponse);
     },
   },
   computed: {
