@@ -1068,8 +1068,8 @@ h4 {
 .vertical-container {
   padding: 15px;
   margin: 5px;
-  width: 1000px;
-  height: 80px;
+  width: 100%;
+  /*height: 80px;*/
 
   justify-content: space-evenly;
 }

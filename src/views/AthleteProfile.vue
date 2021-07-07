@@ -47,6 +47,9 @@ import AthleteChasesTable from "@/components/AthleteChasesTable";
 import axios from "axios";
 
 export default {
+  mounted() {
+    window.scrollTo(0,0);
+  },
   beforeRouteEnter(to, from, next) {
     console.log("Route has entered.");
     next((vm) => {
@@ -82,19 +85,30 @@ export default {
       const statsInfoRequest = axios.get(
         `http://127.0.0.1:8000/athlete/${this.athleteId}/stats`
       );
-      const chasesInfoRequest = axios.get(
-        `http://127.0.0.1:8000/athlete/${this.athleteId}/chases`
+      const chaserInfoRequest = axios.get(
+        `http://127.0.0.1:8000/athlete/${this.athleteId}/chases/chaser`
+      );
+      const evaderInfoRequest = axios.get(
+        `http://127.0.0.1:8000/athlete/${this.athleteId}/chases/evader`
       );
 
       axios
-        .all([bannerInfoRequest, statsInfoRequest, chasesInfoRequest])
+        .all([
+          bannerInfoRequest,
+          statsInfoRequest,
+          chaserInfoRequest,
+          evaderInfoRequest,
+        ])
         .then(
           axios.spread((...responses) => {
             const bannerResponse = responses[0].data.athlete[0];
             const statsResponse = responses[1].data;
-            const chasesResponse = responses[2].data["athlete_chases"];
+            const chasesResponse = responses[2].data["athlete_chasing"].concat(
+              responses[3].data["athlete_evading"]
+            );
             this.parseAthleteBannerData(bannerResponse, statsResponse);
             this.parseAthleteStatsData(statsResponse);
+            this.parseAthleteChaseData(chasesResponse);
             this.parseAthleteChaseData(chasesResponse);
           })
         )
@@ -134,10 +148,12 @@ export default {
           match: `${chase.chaser.team.name}  v.s.  ${chase.evader.team.name}`,
           chaseNo: chase.chase_no,
           chaser: {
+            id: chase.chaser.id,
             name: `${chase.chaser.first_name} ${chase.chaser.last_name}`,
             img: chase.chaser.image_url,
           },
           evader: {
+            id: chase.evader.id,
             name: `${chase.evader.first_name} ${chase.evader.last_name}`,
             img: chase.evader.image_url,
           },
