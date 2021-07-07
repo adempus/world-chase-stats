@@ -32,6 +32,4 @@ app.component("DataTable", DataTable);
 app.component("Column", Column);
 app.component("Tag", Tag);
 
-
-
 app.mount("#app");

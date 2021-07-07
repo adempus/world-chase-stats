@@ -109,7 +109,6 @@ export default {
             this.parseAthleteBannerData(bannerResponse, statsResponse);
             this.parseAthleteStatsData(statsResponse);
             this.parseAthleteChaseData(chasesResponse);
-            this.parseAthleteChaseData(chasesResponse);
           })
         )
         .catch((errors) => {
