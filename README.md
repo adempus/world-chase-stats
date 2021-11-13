@@ -23,14 +23,14 @@ yarn lint
 ### Docker setup:
 
 ### Build:
+```bash
 docker run -d world_chase_stats_container -p 8080:8080 world-chase-stats
+```
 
 ### Run:
+```bash
 docker run -d --name world_chase_stats_container -p 8080:8080 world-chase-stats
-
-
-
-
+```
 
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
