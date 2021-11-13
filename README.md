@@ -32,5 +32,9 @@ docker run -d world_chase_stats_container -p 8080:8080 world-chase-stats
 docker run -d --name world_chase_stats_container -p 8080:8080 world-chase-stats
 ```
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+### Preview:
+
+https://user-images.githubusercontent.com/6502718/141598597-603ae917-57dc-48f5-9f7b-4bf144fe0123.mp4
+
+
+
